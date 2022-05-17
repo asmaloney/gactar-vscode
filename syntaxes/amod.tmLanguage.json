@@ -1,0 +1,91 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "gactar amod",
+  "scopeName": "source.amod",
+
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#sections"
+    },
+    {
+      "include": "#chunkname"
+    },
+    {
+      "include": "#vars"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#globals"
+    }
+  ],
+
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.amod",
+          "match": "//.*"
+        }
+      ]
+    },
+    "sections": {
+      "patterns": [
+        {
+          "name": "keyword.other.special-method.amod",
+          "match": "==(model|config|init|productions)=="
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.amod",
+          "match": "\\b(authors|chunks|clear|description|do|examples|gactar|match|modules|name|print|recall|set|to|write)\\b"
+        }
+      ]
+    },
+    "vars": {
+      "patterns": [
+        {
+          "name": "variable.amod",
+          "match": "\\?(\\w)*"
+        }
+      ]
+    },
+    "globals": {
+      "patterns": [
+        {
+          "name": "constant.variable.amod",
+          "match": "\\b(goal|imaginal|memory|nil|retrieval)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.amod",
+      "begin": "(\"|')",
+      "end": "(\\1)",
+      "patterns": [
+        {
+          "name": "constant.character.escape.amod",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "chunkname": {
+      "patterns": [
+        {
+          "name": "constant.other.color.amod",
+          "match": "(?<=\\[)\\w+(?=:)"
+        }
+      ]
+    }
+  }
+}
