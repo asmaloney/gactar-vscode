@@ -3,7 +3,7 @@
   "displayName": "gactar",
   "description": "Provides syntax highlighting for gactar's amod format",
   "version": "0.0.1",
-  "publisher": "asmaloney.com",
+  "publisher": "asmaloney",
   "author": {
     "name": "Andy Maloney <asmaloney@gmail.com>"
   },
