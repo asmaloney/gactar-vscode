@@ -1,4 +1,4 @@
-# ![gactar logo](images/gactar-logo.svg) gactar-vscode
+# ![gactar logo](images/gactar-logo-64.png) gactar-vscode
 
 gactar-vscode is a plugin for VS Code which implements syntax highlighting for [gactar](https://github.com/asmaloney/gactar)'s [amod format](https://github.com/asmaloney/gactar#gactar-models).
 
