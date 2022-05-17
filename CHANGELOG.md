@@ -4,6 +4,6 @@ All notable changes to the gactar VS Code extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [In development]
+## 0.0.1 - 2022-05-17
 
 - Initial release
