@@ -17,7 +17,7 @@
     "url": "https://github.com/asmaloney/gactar-vscode/issues"
   },
   "homepage": "https://github.com/asmaloney/gactar-vscode/blob/main/README.md",
-  "icon": "images/gactar-logo-64.png",
+  "icon": "images/gactar-logo-1024.png",
   "readmeFilename": "README.md",
   "engines": {
     "vscode": "^1.58.0"
