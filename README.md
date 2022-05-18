@@ -1,3 +1,5 @@
+[![VS MarketPlace](https://vsmarketplacebadge.apphb.com/version/asmaloney.gactar.svg)](https://marketplace.visualstudio.com/items?itemName=asmaloney.gactar) [![GitHub](https://img.shields.io/github/license/asmaloney/gactar-vscode)](LICENSE)
+
 # ![gactar logo](images/gactar-logo-32.png) gactar-vscode
 
 gactar-vscode is a plugin for VS Code which implements syntax highlighting for [gactar](https://github.com/asmaloney/gactar)'s [amod format](https://github.com/asmaloney/gactar#gactar-models).
