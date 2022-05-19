@@ -42,7 +42,7 @@
         "extensions": [
           ".amod"
         ],
-        "configuration": "./amod.language-configuration.json"
+        "configuration": "./languages/amod.language-configuration.json"
       }
     ],
     "grammars": [
