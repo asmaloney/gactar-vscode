@@ -2,7 +2,9 @@
 
 # ![gactar logo](images/gactar-logo-32.png) gactar-vscode
 
-gactar-vscode is a plugin for VS Code which implements syntax highlighting for [gactar](https://github.com/asmaloney/gactar)'s [amod format](https://github.com/asmaloney/gactar#gactar-models).
+_gactar-vscode_ is a plugin for VS Code for working with [gactar](https://github.com/asmaloney/gactar)'s [amod files](https://github.com/asmaloney/gactar#gactar-models).
+
+It implements syntax highlighting, provides snippets to quickly create an amod file or add productions, and allows you to run gactar directly through VS Code.
 
 ## Features
 
@@ -31,7 +33,26 @@ Provides snippets when editing amod files:
   }
   ```
 
-## Reference
+### Run Code Through gactar
+
+If you have gactar installed, you can point VS Code at your installation and run your amod files through gactar from VS Code. You can access the command through VS Code's [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette):
+
+![command palette](images/command-palette.png)
+
+The results will show up in VSCode's integrated terminal.
+
+## Configuration
+
+You can set your configuration using the VS Code Settings window:
+![settings](images/settings.png)
+
+Or you can set them directly in your `settings.json` file:
+
+- `"gactar.installationFolder"` (required to run gactar) - Path to your gactar installation (folder containing the gactar executable).
+- `"gactar.framework"` - Which framework to run. Allowed: `ccm`, `pyactr`, `vanilla`, or `all`.
+- `"gactar.outputFolder"` - Path to store intermediate files (the generated code for each framework) when running models. If empty, it will create a folder called 'gactar-temp' next to the amod file.
+
+## gactar Reference
 
 I wrote up a technical note about [gactar](https://github.com/asmaloney/gactar) which includes more information about the amod format. It may be found on [ResearchGate](https://www.researchgate.net/).
 
