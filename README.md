@@ -6,9 +6,30 @@ gactar-vscode is a plugin for VS Code which implements syntax highlighting for [
 
 ## Features
 
-Syntax highlighting for .amod files.
+### Syntax highlighting
+
+Provides syntax highlighting for .amod files.
 
 ![example](images/example.png)
+
+### Snippets
+
+Provides snippets when editing amod files:
+
+- Typing _amod_ will show a snippet to **Insert basic amod template**. This will fill in a complete, empty amod file.
+- Type _prod_ will show a snippet to **Insert amod Production**. This will add an empty production like this:
+
+  ```
+   <cursor here> {
+    description: ''
+
+    match {
+        goal []
+    }
+    do {
+    }
+  }
+  ```
 
 ## Reference
 
