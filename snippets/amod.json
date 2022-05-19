@@ -60,11 +60,9 @@
       "$1 {",
       "    description: '$2'",
       "    ",
-      "    // Buffers to match",
       "    match {",
       "        goal [$0]",
       "    }",
-      "    // Steps to execute",
       "    do {",
       "    }",
       "}"
