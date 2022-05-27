@@ -4,6 +4,12 @@ All notable changes to the gactar VS Code extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.2.1](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.2.1) - 2022-05-27
+
+### Fixed
+
+- Fixed node packaging issue.
+
 ## [0.2.0](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.2.0) - 2022-05-26
 
 ### Added
