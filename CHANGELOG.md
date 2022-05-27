@@ -4,7 +4,20 @@ All notable changes to the gactar VS Code extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 0.1.0 - 2022-05-19
+## [0.2.0](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.2.0) - 2022-05-26
+
+### Added
+
+- Use the web server and Output Panel instead of the command line with the Terminal. ([#1](https://github.com/asmaloney/gactar-vscode/pull/1))
+- Now highlights errors in amod files and adds them to the Problems Panel.
+- Command: `gactar: Restart Server` will restart the gactar web server.
+
+### Changed
+
+- Config: `gactar.outputFolder` was renamed to `gactar.intermediateFolder`.
+- Configured eslint to run on the code.
+
+## [0.1.0](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.1.0) - 2022-05-19
 
 ### Added
 

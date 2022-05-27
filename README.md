@@ -39,7 +39,17 @@ If you have gactar installed, you can point VS Code at your installation and run
 
 ![command palette](images/command-palette.png)
 
-The results will show up in VSCode's integrated terminal.
+The results will show up in VSCode's Output Panel.
+
+### Restart The Server
+
+If you need to restart the gactar server, you can run the command `gactar: Restart Server`.
+
+### Highlight Problems
+
+After running amod files, any errors will be reported in the Problems Panel and they will be highlighted in the code.
+
+![problems](images/problems.png)
 
 ## Configuration
 
@@ -50,7 +60,7 @@ Or you can set them directly in your `settings.json` file:
 
 - `"gactar.installationFolder"` (required to run gactar) - Path to your gactar installation (folder containing the gactar executable).
 - `"gactar.framework"` - Which framework to run. Allowed: `ccm`, `pyactr`, `vanilla`, or `all`.
-- `"gactar.outputFolder"` - Path to store intermediate files (the generated code for each framework) when running models. If empty, it will create a folder called 'gactar-temp' next to the amod file.
+- `"gactar.intermediateFolder"` - Path to store intermediate files (the generated code for each framework) when running models. If empty, it will create a folder called 'gactar-temp' in your gactar installation.
 
 ## gactar Reference
 
