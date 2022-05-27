@@ -1,113 +1,190 @@
-import path = require('path')
+import * as path from 'path'
 import * as vscode from 'vscode'
 
-var gactarTerminal: vscode.Terminal | undefined
+import {
+  clearAllDiagnostics,
+  gactarDiagnostics,
+  initDiagnostics,
+} from './diagnostics'
+import api, {
+  Issue,
+  IssueList,
+  ResultMap,
+  RunParams,
+  RunResult,
+} from './gactar-api'
+import { gactarOutputChannel, initChannel } from './outputChannel'
+import {
+  restartGactarServer,
+  runGactarServer,
+  serverRunning,
+  shutdownGactarServer,
+} from './server'
+import { checkGactarExists, showError } from './utils'
+
+let gactarRestartBeforeRun = false // set this to restart the server before we try to run
 
 export function activate(context: vscode.ExtensionContext) {
-  vscode.window.onDidCloseTerminal((t) => {
-    // If we close our terminal, reset it.
-    if (t.name == 'gactar') {
-      gactarTerminal = undefined
-    }
-  })
+  initDiagnostics(context)
+  initChannel(context)
 
+  vscode.workspace.onDidChangeConfiguration(
+    (event: vscode.ConfigurationChangeEvent) => {
+      const affected = event.affectsConfiguration('gactar.intermediateFolder')
+      if (affected) {
+        gactarRestartBeforeRun = true
+      }
+    }
+  )
+
+  // gactar.run.file
   let disposable = vscode.commands.registerCommand(
     'gactar.run.file',
     async () => {
-      // Because of the "when" check in menus->commandPalette in package.json,
-      // we know that we are running this on an amod file.
-
-      ensureTerminalExists(context)
-
       const editor = vscode.window.activeTextEditor
 
-      if (!editor || !gactarTerminal) {
-        vscode.window.showErrorMessage(
-          'Error showing gactar terminal. Please file an issue on the gactar-vscode GitHub page: https://github.com/asmaloney/gactar-vscode'
+      if (!editor) {
+        void vscode.window.showErrorMessage(
+          'Error getting active editor. Please file an issue on the gactar-vscode GitHub page: https://github.com/asmaloney/gactar-vscode'
         )
+        return
+      }
+
+      // Ensure we are on an open amod file.
+      if (!editor.document || editor.document.languageId != 'amod') {
         return
       }
 
       const config = vscode.workspace.getConfiguration('gactar')
 
       if (!(await checkGactarExists(config))) {
-        vscode.window.showErrorMessage(
+        showError(
           'gactar is not installed properly. Please ensure you have run the gactar install script & check your gactar.installationFolder setting.'
         )
         return
       }
 
-      // Change working directory to our gactar installation and activate our environment
-      const install = config.get<string>('installationFolder')
-      gactarTerminal.sendText(`cd '${install}' && source ./env/bin/activate`)
-
-      const documentFilePath = editor.document.fileName
       const documentDir = path.dirname(editor.document.uri.path)
-
-      if (!documentFilePath || !documentDir) {
-        vscode.window.showErrorMessage(
+      if (!documentDir) {
+        showError(
           'Error getting document. Please file an issue on the gactar-vscode GitHub page: https://github.com/asmaloney/gactar-vscode'
         )
         return
       }
 
-      // Set up our output folder based on config
-      let outputFolder = config.get<string>('outputFolder')
-      if (!outputFolder) {
-        outputFolder = path.join(documentDir, 'gactar-temp')
+      // If we've changed a config which requires a server restart, then do that.
+      if (serverRunning() && gactarRestartBeforeRun) {
+        gactarRestartBeforeRun = false
+        await restartGactarServer()
+      } else {
+        await runGactarServer()
       }
 
-      // Which framework to run (or 'all')
-      const framework = config.get<string>('framework')
+      gactarOutputChannel.show()
 
-      gactarTerminal.show()
-      gactarTerminal.sendText(
-        `./gactar -f ${framework} -o '${outputFolder}' -r '${documentFilePath}'`
-      )
+      // Which framework to run (or 'all')
+      let framework = config.get<string>('framework')
+      if (!framework) {
+        framework = 'all'
+      }
+
+      runAMOD(editor.document, framework)
     }
   )
+  context.subscriptions.push(disposable)
 
+  // gactar.server.restart
+  disposable = vscode.commands.registerCommand('gactar.server.restart', () => {
+    void restartGactarServer()
+  })
   context.subscriptions.push(disposable)
 }
 
-export function deactivate() {}
-
-async function checkGactarExists(
-  config: vscode.WorkspaceConfiguration
-): Promise<boolean> {
-  const installationFolder = config.get<string>('installationFolder')
-  if (!installationFolder) {
-    return false
-  }
-
-  const installationUI = vscode.Uri.from({
-    scheme: 'file',
-    path: installationFolder,
-  })
-  const files = await vscode.workspace.fs.readDirectory(installationUI)
-
-  // Check for 'gactar' exe & 'env' directory
-  let foundGactar = false
-  let foundEnv = false
-  files.forEach((file) => {
-    if (file[0] == 'gactar' && file[1] == vscode.FileType.File) {
-      foundGactar = true
-    } else if (file[0] == 'env' && file[1] == vscode.FileType.Directory) {
-      foundEnv = true
-    }
-  })
-
-  return foundGactar && foundEnv
+export function deactivate() {
+  shutdownGactarServer()
 }
 
-// ensureTerminalExists creates the gactar terminal if it doesn't exist yet.
-function ensureTerminalExists(context: vscode.ExtensionContext) {
-  if (!gactarTerminal || gactarTerminal.processId == undefined) {
-    gactarTerminal = vscode.window.createTerminal({
-      name: 'gactar',
-      isTransient: true,
-    })
+function runAMOD(doc: vscode.TextDocument, framework: string) {
+  gactarOutputChannel.appendLine(`Running gactar on ${framework}...`)
 
-    context.subscriptions.push(gactarTerminal)
+  clearAllDiagnostics(doc)
+
+  const params: RunParams = {
+    amod: doc.getText(),
+    goal: '',
+    frameworks: [framework],
+  }
+
+  api
+    .run(params)
+    .then((results: RunResult) => {
+      if ('results' in results) {
+        processResults(results.results)
+      } else {
+        processIssues(results.issues, doc)
+      }
+    })
+    .catch((err: Error) => {
+      showError(err.message)
+    })
+}
+
+// processResults will output our results to the output channel.
+function processResults(results: ResultMap) {
+  for (const [frameworkName, result] of Object.entries(results)) {
+    let text = frameworkName + '\n' + '---\n'
+
+    if (result.filePath) {
+      const uri = vscode.Uri.file(result.filePath)
+      text += `Intermediate file: ${uri.toString()}\n\n`
+    }
+
+    if (result.output.length == 0) {
+      text += '(No output)'
+    } else {
+      text += result.output
+    }
+
+    text += '\n\n'
+
+    gactarOutputChannel.append(text)
+  }
+}
+
+function convertLevelToSeverity(level: string): vscode.DiagnosticSeverity {
+  if (level == 'info') {
+    return vscode.DiagnosticSeverity.Information
+  }
+
+  return vscode.DiagnosticSeverity.Error
+}
+
+function processIssues(issues: IssueList, doc: vscode.TextDocument) {
+  const diagnosticsArray = new Array<vscode.Diagnostic>()
+
+  issues.forEach((issue: Issue) => {
+    const text = `${issue.level}: ${issue.text} (line ${issue.line}, col ${
+      issue.columnStart + 1
+    }-${issue.columnEnd})\n`
+    gactarOutputChannel.append(text)
+
+    let line = issue.line
+    if (line) {
+      line = line - 1 // lines are 0-based in vscode
+    }
+
+    const diag = new vscode.Diagnostic(
+      new vscode.Range(line, issue.columnStart, line, issue.columnEnd),
+      issue.text,
+      convertLevelToSeverity(issue.level)
+    )
+
+    diag.source = 'gactar'
+
+    diagnosticsArray.push(diag)
+  })
+
+  if (doc) {
+    gactarDiagnostics.set(doc.uri, diagnosticsArray)
   }
 }
