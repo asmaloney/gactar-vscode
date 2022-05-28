@@ -16,7 +16,7 @@ import {
   serverRunning,
   shutdownGactarServer,
 } from './server'
-import { checkGactarExists, showError } from './utils'
+import { checkGactarExists, issueToText, showError } from './utils'
 
 let gactarRestartBeforeRun = false // set this to restart the server before we try to run
 
@@ -151,9 +151,7 @@ function processIssues(issues: IssueList, doc: vscode.TextDocument) {
   const diagnosticList = new Array<vscode.Diagnostic>()
 
   issues.forEach((issue: Issue) => {
-    const text = `${issue.level}: ${issue.text} (line ${issue.line}, col ${
-      issue.columnStart + 1
-    }-${issue.columnEnd})\n`
+    const text = issueToText(issue) + '\n'
     gactarOutputChannel.append(text)
 
     let line = issue.line

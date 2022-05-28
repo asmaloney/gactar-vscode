@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { Issue } from './gactar-api'
 
 // checkGactarExists looks for the executable & the 'env' directory in the specified
 // gactar.installationFolder.
@@ -28,10 +29,28 @@ async function checkGactarExists(
   return foundGactar && foundEnv
 }
 
+// issueToText takes an Issue and formats it for output.
+function issueToText(issue: Issue): string {
+  let text = `${issue.level}: ${issue.text}`
+
+  if (issue.location) {
+    text += `  (line ${issue.location.line}`
+    if (issue.location.columnStart != 0 || issue.location.columnEnd != 0) {
+      text += `, col ${issue.location.columnStart}`
+      if (issue.location.columnEnd != issue.location.columnStart) {
+        text += `-${issue.location.columnEnd}`
+      }
+    }
+    text += ')'
+  }
+
+  return text
+}
+
 function showError(err: string) {
   err = `gactar: ${err}`
   console.log(err)
   void vscode.window.showErrorMessage(err)
 }
 
-export { checkGactarExists, showError }
+export { checkGactarExists, issueToText, showError }
