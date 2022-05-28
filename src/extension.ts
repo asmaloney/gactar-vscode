@@ -1,11 +1,7 @@
 import * as path from 'path'
 import * as vscode from 'vscode'
 
-import {
-  clearAllDiagnostics,
-  gactarDiagnostics,
-  initDiagnostics,
-} from './diagnostics'
+import diagnostics from './diagnostics'
 import api, {
   Issue,
   IssueList,
@@ -25,7 +21,7 @@ import { checkGactarExists, showError } from './utils'
 let gactarRestartBeforeRun = false // set this to restart the server before we try to run
 
 export function activate(context: vscode.ExtensionContext) {
-  initDiagnostics(context)
+  diagnostics.init(context)
   initChannel(context)
 
   vscode.workspace.onDidChangeConfiguration(
@@ -107,7 +103,7 @@ export function deactivate() {
 function runAMOD(doc: vscode.TextDocument, framework: string) {
   gactarOutputChannel.appendLine(`Running gactar on ${framework}...`)
 
-  clearAllDiagnostics(doc)
+  diagnostics.clearAll(doc.uri)
 
   const params: RunParams = {
     amod: doc.getText(),
@@ -151,16 +147,8 @@ function processResults(results: ResultMap) {
   }
 }
 
-function convertLevelToSeverity(level: string): vscode.DiagnosticSeverity {
-  if (level == 'info') {
-    return vscode.DiagnosticSeverity.Information
-  }
-
-  return vscode.DiagnosticSeverity.Error
-}
-
 function processIssues(issues: IssueList, doc: vscode.TextDocument) {
-  const diagnosticsArray = new Array<vscode.Diagnostic>()
+  const diagnosticList = new Array<vscode.Diagnostic>()
 
   issues.forEach((issue: Issue) => {
     const text = `${issue.level}: ${issue.text} (line ${issue.line}, col ${
@@ -176,15 +164,15 @@ function processIssues(issues: IssueList, doc: vscode.TextDocument) {
     const diag = new vscode.Diagnostic(
       new vscode.Range(line, issue.columnStart, line, issue.columnEnd),
       issue.text,
-      convertLevelToSeverity(issue.level)
+      diagnostics.convertIssueLevelToSeverity(issue.level)
     )
 
     diag.source = 'gactar'
 
-    diagnosticsArray.push(diag)
+    diagnosticList.push(diag)
   })
 
   if (doc) {
-    gactarDiagnostics.set(doc.uri, diagnosticsArray)
+    diagnostics.add(doc.uri, diagnosticList)
   }
 }
