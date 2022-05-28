@@ -5,7 +5,7 @@ import diagnostics from './diagnostics'
 import api, {
   Issue,
   IssueList,
-  ResultMap,
+  FrameworkResultMap,
   RunParams,
   RunResult,
 } from './gactar-api'
@@ -113,11 +113,12 @@ function runAMOD(doc: vscode.TextDocument, framework: string) {
 
   api
     .run(params)
-    .then((results: RunResult) => {
-      if ('results' in results) {
-        processResults(results.results)
-      } else {
-        processIssues(results.issues, doc)
+    .then((result: RunResult) => {
+      if (result.issues) {
+        processIssues(result.issues, doc)
+      }
+      if (result.results) {
+        processResults(result.results, doc)
       }
     })
     .catch((err: Error) => {
@@ -126,7 +127,7 @@ function runAMOD(doc: vscode.TextDocument, framework: string) {
 }
 
 // processResults will output our results to the output channel.
-function processResults(results: ResultMap) {
+function processResults(results: FrameworkResultMap, doc: vscode.TextDocument) {
   for (const [frameworkName, result] of Object.entries(results)) {
     let text = frameworkName + '\n' + '---\n'
 
@@ -135,7 +136,15 @@ function processResults(results: ResultMap) {
       text += `Intermediate file: ${uri.toString()}\n\n`
     }
 
-    if (result.output.length == 0) {
+    gactarOutputChannel.append(text)
+
+    text = ''
+
+    if (result.issues) {
+      processIssues(result.issues, doc)
+    }
+
+    if (!result.output) {
       text += '(No output)'
     } else {
       text += result.output
@@ -154,13 +163,18 @@ function processIssues(issues: IssueList, doc: vscode.TextDocument) {
     const text = issueToText(issue) + '\n'
     gactarOutputChannel.append(text)
 
-    let line = issue.line
-    if (line) {
-      line = line - 1 // lines are 0-based in vscode
+    let line = 0
+    let colStart = 0
+    let colEnd = 0
+
+    if (issue.location) {
+      line = issue.location.line - 1 // lines are 0-based in vscode
+      colStart = issue.location.columnStart
+      colEnd = issue.location.columnEnd
     }
 
     const diag = new vscode.Diagnostic(
-      new vscode.Range(line, issue.columnStart, line, issue.columnEnd),
+      new vscode.Range(line, colStart, line, colEnd),
       issue.text,
       diagnostics.convertIssueLevelToSeverity(issue.level)
     )

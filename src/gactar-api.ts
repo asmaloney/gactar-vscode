@@ -3,22 +3,23 @@ import axios, { AxiosInstance } from 'axios'
 let gactarHTTP: AxiosInstance
 
 function init(port: number) {
-  const url = `http://localhost:${port}`
-
   gactarHTTP = axios.create({
     headers: { 'Content-Type': 'application/json' },
-    baseURL: url,
+    baseURL: `http://localhost:${port}`,
   })
 }
 
 // version
-export interface Version {
-  version: string
+export type Version = string
+
+export interface VersionResponse {
+  // The current version tag when gactar was built.
+  version: Version
 }
 
 async function getVersion(): Promise<Version> {
-  const response = await gactarHTTP.get<Version>('/api/version')
-  return response.data
+  const response = await gactarHTTP.get<VersionResponse>('/api/version')
+  return response.data.version
 }
 
 // run
@@ -33,67 +34,56 @@ export interface RunParams {
   frameworks?: string[]
 }
 
-export interface Result {
-  // Result maps from runResult struct in gactar's web/web.go.
-
-  // Name of the model (from the amod text).
-  modelName: string
-
-  // Intermediate code file (full path).
-  filePath: string
-
-  // Code which was run.
-  code?: string
-
-  // Output of run (stdout + stderr).
-  output: string
-}
-
-export type ResultMap = { [key: string]: Result }
-
-export interface Results {
-  results: ResultMap
-}
-
-export interface Issue {
-  level: string
-  text: string
+// Location of an issue in the source code.
+export interface Location {
   line: number
   columnStart: number
   columnEnd: number
 }
 
-export type IssueList = Issue[]
+export interface Issue {
+  // Severity of the issue.
+  level: string
 
-export interface RunIssues {
-  issues: IssueList
+  // Text of the issue.
+  text: string
+
+  // Location in the code (optional)
+  location?: Location
 }
 
-export type RunResult = Results | RunIssues
+export type IssueList = Issue[]
+
+export interface FrameworkResult {
+  // Name of the model (from the amod text).
+  modelName: string
+
+  // Any issues specific to a framework.
+  issues?: IssueList
+
+  // Intermediate code file (full path).
+  filePath?: string
+
+  // Code which was run.
+  code?: string
+
+  // Output of run (stdout + stderr).
+  output?: string
+}
+
+export type FrameworkResultMap = { [key: string]: FrameworkResult }
+
+export interface RunResult {
+  issues?: IssueList
+  results?: FrameworkResultMap
+}
 
 async function run(params: RunParams): Promise<RunResult> {
   const response = await gactarHTTP.post<RunResult>('/api/run', params)
   return response.data
 }
 
-// examples
-export interface ExampleList {
-  example_list: string[]
-}
-
-async function getExampleList(): Promise<ExampleList> {
-  const response = await gactarHTTP.get<ExampleList>('/api/examples/list')
-  return response.data
-}
-
-async function getExample(name: string): Promise<string> {
-  const response = await gactarHTTP.get<string>('/api/examples/' + name)
-  return response.data
-}
-
 export default {
-  getExample,
-  getExampleList,
   getVersion,
   init,
   run,
