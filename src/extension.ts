@@ -9,20 +9,15 @@ import api, {
   RunParams,
   RunResult,
 } from './gactar-api'
-import { gactarOutputChannel, initChannel } from './outputChannel'
-import {
-  restartGactarServer,
-  runGactarServer,
-  serverRunning,
-  shutdownGactarServer,
-} from './server'
+import outputChannel, { gactarOutputChannel } from './outputChannel'
+import server from './server'
 import { checkGactarExists, issueToText, showError } from './utils'
 
 let gactarRestartBeforeRun = false // set this to restart the server before we try to run
 
 export function activate(context: vscode.ExtensionContext) {
   diagnostics.init(context)
-  initChannel(context)
+  outputChannel.init(context)
 
   vscode.workspace.onDidChangeConfiguration(
     (event: vscode.ConfigurationChangeEvent) => {
@@ -69,11 +64,11 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       // If we've changed a config which requires a server restart, then do that.
-      if (serverRunning() && gactarRestartBeforeRun) {
+      if (server.isRunning() && gactarRestartBeforeRun) {
         gactarRestartBeforeRun = false
-        await restartGactarServer()
+        await server.restart()
       } else {
-        await runGactarServer()
+        await server.run()
       }
 
       gactarOutputChannel.show()
@@ -91,13 +86,13 @@ export function activate(context: vscode.ExtensionContext) {
 
   // gactar.server.restart
   disposable = vscode.commands.registerCommand('gactar.server.restart', () => {
-    void restartGactarServer()
+    void server.restart()
   })
   context.subscriptions.push(disposable)
 }
 
 export function deactivate() {
-  shutdownGactarServer()
+  server.shutdown()
 }
 
 function runAMOD(doc: vscode.TextDocument, framework: string) {

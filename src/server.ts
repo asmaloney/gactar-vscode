@@ -30,11 +30,11 @@ async function getFreePort() {
   })
 }
 
-function serverRunning(): boolean {
+function isRunning(): boolean {
   return gactarWebServer != null
 }
 
-async function runGactarServer(): Promise<void> {
+async function run(): Promise<void> {
   // If it's already running, return
   if (gactarWebServer) {
     return
@@ -121,7 +121,7 @@ async function runGactarServer(): Promise<void> {
   })
 }
 
-function shutdownGactarServer() {
+function shutdown() {
   if (!gactarWebServer) {
     return
   }
@@ -135,14 +135,14 @@ function shutdownGactarServer() {
   }
 }
 
-async function restartGactarServer() {
-  shutdownGactarServer()
-  await runGactarServer()
+async function restart() {
+  shutdown()
+  await run()
 }
 
-export {
-  restartGactarServer,
-  runGactarServer,
-  serverRunning,
-  shutdownGactarServer,
+export default {
+  restart,
+  run,
+  isRunning,
+  shutdown,
 }
