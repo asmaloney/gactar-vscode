@@ -137,6 +137,7 @@ function processResults(results: FrameworkResultMap, doc: vscode.TextDocument) {
 
     if (result.issues) {
       processIssues(result.issues, doc)
+      text += '\n'
     }
 
     if (!result.output) {
