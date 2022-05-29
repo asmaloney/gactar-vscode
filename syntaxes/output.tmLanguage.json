@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "gactar output",
+  "scopeName": "text.gactar-output",
+  "patterns": [
+    { "include": "#error" },
+    { "include": "#info" },
+    { "include": "#warning" },
+    { "include": "#number" },
+    { "include": "#uri" },
+    { "include": "#sections" }
+  ],
+  "repository": {
+    "error": {
+      "patterns": [
+        {
+          "name": "markup.bold",
+          "match": "^(error:)"
+        }
+      ]
+    },
+    "info": {
+      "patterns": [
+        {
+          "name": "support.type",
+          "match": "^(info:)"
+        }
+      ]
+    },
+    "warning": {
+      "patterns": [
+        {
+          "name": "constant",
+          "match": "^(warning:)"
+        }
+      ]
+    },
+    "uri": {
+      "patterns": [
+        {
+          "name": "storage",
+          "match": "\\b(?i:([a-z]|[0-9])+\\:((\\/\\/)|((\\/\\/)?(\\S)))+)"
+        }
+      ]
+    },
+    "sections": {
+      "patterns": [
+        {
+          "name": "support.type",
+          "match": "^(ccm|pyactr|vanilla):?"
+        },
+        {
+          "name": "support.type",
+          "match": "^\\-\\-\\-$"
+        }
+      ]
+    }
+  }
+}

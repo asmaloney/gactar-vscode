@@ -96,6 +96,13 @@
           ".amod"
         ],
         "configuration": "./languages/amod.language-configuration.json"
+      },
+      {
+        "id": "gactar-output",
+        "mimetypes": [
+          "text/x-code-output",
+          "x-code-output"
+        ]
       }
     ],
     "grammars": [
@@ -103,6 +110,11 @@
         "language": "amod",
         "scopeName": "source.amod",
         "path": "./syntaxes/amod.tmLanguage.json"
+      },
+      {
+        "language": "gactar-output",
+        "scopeName": "text.gactar-output",
+        "path": "./syntaxes/output.tmLanguage.json"
       }
     ],
     "snippets": [
