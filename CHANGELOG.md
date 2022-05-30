@@ -4,6 +4,18 @@ All notable changes to the gactar VS Code extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.0] (in progress)
+
+### Added
+
+- Added per-framework issues to report framework-specific issues with an amod file.
+- Added syntax colouring to the Output Panel.
+- Use selected text in the editor as the initial goal when running if it looks like a chunk. This way you can select one of the examples in the amod file and run it easily.
+
+### Changed
+
+- Sync API with gactar 0.6.0.
+
 ## [0.2.1](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.2.1) - 2022-05-27
 
 ### Fixed
