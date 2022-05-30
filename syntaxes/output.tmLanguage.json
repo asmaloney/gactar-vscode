@@ -31,7 +31,8 @@
       "patterns": [
         {
           "name": "constant",
-          "match": "^(warning:)"
+          "match": "^(#\\|)?(?i:(warning:))",
+          "comment": "captures our warning as well as ones from vanilla ACT-R which start with #|"
         }
       ]
     },
