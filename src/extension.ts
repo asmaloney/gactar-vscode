@@ -79,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
         framework = 'all'
       }
 
-      runAMOD(editor.document, framework)
+      runAMOD(editor, framework)
     }
   )
   context.subscriptions.push(disposable)
@@ -95,14 +95,36 @@ export function deactivate() {
   server.shutdown()
 }
 
-function runAMOD(doc: vscode.TextDocument, framework: string) {
-  gactarOutputChannel.appendLine(`Running gactar on ${framework}...`)
+function getSelectedGoal(editor: vscode.TextEditor): string | undefined {
+  const doc = editor.document
+  const selection = doc.getText(editor.selection).trim()
+  if (!selection) {
+    return
+  }
+
+  // Quick check for pattern format "[<id>:<stuff>]"
+  const regex = /^\[[^:]+:[^:]+\]$/g
+  if (regex.test(selection)) {
+    return selection
+  }
+
+  return
+}
+
+function runAMOD(editor: vscode.TextEditor, framework: string) {
+  const doc = editor.document
+  gactarOutputChannel.appendLine(
+    `\nRunning gactar on ${doc.uri.toString()} on framework '${framework}'...`
+  )
 
   diagnostics.clearAll(doc.uri)
 
+  // Grab the selected goal (if any)
+  const goal = getSelectedGoal(editor)
+
   const params: RunParams = {
     amod: doc.getText(),
-    goal: '',
+    goal: goal ? goal : '',
     frameworks: [framework],
   }
 
