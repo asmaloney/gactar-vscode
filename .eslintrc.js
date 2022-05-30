@@ -13,12 +13,10 @@ module.exports = {
   overrides: [
     {
       files: ['*.ts'],
-
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
       ],
-
       parserOptions: {
         project: ['./tsconfig.json'],
       },
