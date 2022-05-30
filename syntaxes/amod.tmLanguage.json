@@ -64,7 +64,7 @@
       "patterns": [
         {
           "name": "constant.variable.amod",
-          "match": "\\b(goal|imaginal|memory|nil|retrieval)\\b"
+          "match": "\\b(goal|imaginal|memory|nil|procedural|retrieval)\\b"
         }
       ]
     },
