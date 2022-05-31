@@ -9,6 +9,8 @@ function init(port: number) {
   })
 }
 
+// This is copied from gactar 0.6.0's api.ts file.
+
 // version
 export type Version = string
 
