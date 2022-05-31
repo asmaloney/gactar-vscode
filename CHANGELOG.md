@@ -15,6 +15,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Changed
 
 - Sync API with gactar 0.6.0.
+- Sync syntax with gactar 0.6.0.
 
 ## [0.2.1](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.2.1) - 2022-05-27
 

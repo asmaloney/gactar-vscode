@@ -39,6 +39,10 @@ If you have gactar installed, you can point VS Code at your installation and run
 
 ![command palette](images/command-palette.png)
 
+If an example is selected in the editor, it will be used as the initial goal.
+
+![selected example](images/selected-example.png)
+
 The results will show up in VSCode's Output Panel.
 
 ### Restart The Server
