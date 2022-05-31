@@ -181,25 +181,27 @@ function processIssues(issues: IssueList, doc: vscode.TextDocument) {
     const text = issueToText(issue) + '\n'
     gactarOutputChannel.append(text)
 
-    let line = 0
-    let colStart = 0
-    let colEnd = 0
+    if (issue.level != 'info') {
+      let line = 0
+      let colStart = 0
+      let colEnd = 0
 
-    if (issue.location) {
-      line = issue.location.line - 1 // lines are 0-based in vscode
-      colStart = issue.location.columnStart
-      colEnd = issue.location.columnEnd
+      if (issue.location) {
+        line = issue.location.line - 1 // lines are 0-based in vscode
+        colStart = issue.location.columnStart
+        colEnd = issue.location.columnEnd
+      }
+
+      const diag = new vscode.Diagnostic(
+        new vscode.Range(line, colStart, line, colEnd),
+        issue.text,
+        diagnostics.convertIssueLevelToSeverity(issue.level)
+      )
+
+      diag.source = 'gactar'
+
+      diagnosticList.push(diag)
     }
-
-    const diag = new vscode.Diagnostic(
-      new vscode.Range(line, colStart, line, colEnd),
-      issue.text,
-      diagnostics.convertIssueLevelToSeverity(issue.level)
-    )
-
-    diag.source = 'gactar'
-
-    diagnosticList.push(diag)
   })
 
   if (doc) {
