@@ -30,6 +30,17 @@ async function getFreePort() {
   })
 }
 
+function outputVersion() {
+  api
+    .getVersion()
+    .then((version: string) => {
+      gactarOutputChannel.appendLine(`...ready to serve with gactar ${version}`)
+    })
+    .catch(() => {
+      gactarOutputChannel.appendLine('Error: failed to get gactar version')
+    })
+}
+
 function isRunning(): boolean {
   return gactarWebServer != null
 }
@@ -107,7 +118,7 @@ async function run(): Promise<void> {
 
         // Wait until we are ready to serve
         if (initialOutput.includes('Serving gactar on')) {
-          gactarOutputChannel.appendLine('...ready to serve')
+          outputVersion()
           gactarWebServerInitialized = true
           resolve()
         }
