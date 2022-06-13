@@ -27,7 +27,7 @@
       "patterns": [
         {
           "name": "keyword.other.special-method.amod",
-          "match": "==(model|config|init|productions)=="
+          "match": "~~\\s*(model|config|init|productions)\\s*~~"
         }
       ]
     },
@@ -35,7 +35,7 @@
       "patterns": [
         {
           "name": "keyword.amod",
-          "match": "\\b(authors|chunks|clear|description|do|examples|gactar|match|modules|name|print|recall|set|to|write)\\b"
+          "match": "\\b(and|authors|chunks|clear|description|do|examples|gactar|match|modules|name|print|recall|set|stop|to|when)\\b"
         }
       ]
     },
@@ -59,7 +59,7 @@
       "patterns": [
         {
           "name": "constant.variable.amod",
-          "match": "\\b(goal|imaginal|memory|nil|procedural|retrieval)\\b"
+          "match": "\\b(false|goal|imaginal|memory|nil|procedural|retrieval|true)\\b"
         }
       ]
     },
