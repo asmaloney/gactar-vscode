@@ -59,7 +59,7 @@
       "patterns": [
         {
           "name": "constant.variable.amod",
-          "match": "\\b(false|goal|imaginal|memory|nil|procedural|retrieval|true)\\b"
+          "match": "\\b(extra_buffers|false|goal|imaginal|memory|nil|procedural|retrieval|true)\\b"
         }
       ]
     },
