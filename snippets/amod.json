@@ -1,5 +1,5 @@
 {
-  "Insert basic amod template": {
+  "Insert basic amod template (full file)": {
     "prefix": "amod",
     "body": [
       "~~ model ~~",
@@ -136,7 +136,7 @@
     ],
     "description": "Insert amod init section"
   },
-  "Insert amod Production": {
+  "Insert blank amod Production": {
     "prefix": "prod",
     "body": [
       "$1 {",
