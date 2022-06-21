@@ -4,6 +4,27 @@ All notable changes to the gactar VS Code extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.2](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.3.2) - 2022-06-21
+
+### Added
+
+- Added some snippets for creating sections:
+
+  | Prefix | Name                            |
+  | ------ | ------------------------------- |
+  | ~~m    | Insert amod model section       |
+  | ~~c    | Insert amod config section      |
+  | ~~i    | Insert amod init section        |
+  | ~~p    | Insert amod productions section |
+
+### Changed
+
+- Sync amod syntax with gactar 0.9.0.
+
+### Fixed
+
+- Fixed "amod" snippet to use proper section delimiters.
+
 ## [0.3.1](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.3.1) - 2022-06-13
 
 ### Added

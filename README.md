@@ -18,8 +18,8 @@ Provides syntax highlighting for .amod files.
 
 Provides snippets when editing amod files:
 
-- Typing _amod_ will show a snippet to **Insert basic amod template**. This will fill in a complete, empty amod file.
-- Type _prod_ will show a snippet to **Insert amod Production**. This will add an empty production like this:
+- Typing _amod_ will show a snippet to **Insert basic amod template (full file)**. This will fill in a complete, empty amod file.
+- Type _prod_ will show a snippet to **Insert blank amod Production**. This will add an empty production like this:
 
   ```
    <cursor here> {
@@ -32,6 +32,17 @@ Provides snippets when editing amod files:
     }
   }
   ```
+
+#### All Available Snippets
+
+| Prefix | Name                                   |
+| ------ | -------------------------------------- |
+| amod   | Insert basic amod template (full file) |
+| ~~m    | Insert amod model section              |
+| ~~c    | Insert amod config section             |
+| ~~i    | Insert amod init section               |
+| ~~p    | Insert amod productions section        |
+| prod   | Insert blank amod Production           |
 
 ### Run Code Through gactar
 
