@@ -4,6 +4,12 @@ All notable changes to the gactar VS Code extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.3.3](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.3.3) - 2022-07-07
+
+### Changed
+
+- Sync amod syntax with gactar 0.10.0.
+
 ## [0.3.2](https://github.com/asmaloney/gactar-vscode/releases/tag/v0.3.2) - 2022-06-21
 
 ### Added

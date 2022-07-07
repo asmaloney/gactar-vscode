@@ -6,6 +6,8 @@ _gactar-vscode_ is a plugin for VS Code for working with [gactar](https://github
 
 It implements syntax highlighting, provides snippets to quickly create an amod file or add productions, and allows you to run gactar directly through VS Code.
 
+In order to run amod files, gactar needs to be [installed](https://github.com/asmaloney/gactar#installation) and you will need to add the path to the installation in your VS Code gactar settings (see "Installation Folder" in the [Configuration section](#configuration) below).
+
 ## Features
 
 ### Syntax highlighting
