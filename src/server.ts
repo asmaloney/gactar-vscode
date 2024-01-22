@@ -82,7 +82,7 @@ async function run(): Promise<void> {
     }
 
     gactarWebServer = child_process.spawn(
-      `./gactar -w -p ${port} ${tempSwitch}`,
+      `./gactar web -p ${port} ${tempSwitch}`,
       serverDefaults
     )
 
