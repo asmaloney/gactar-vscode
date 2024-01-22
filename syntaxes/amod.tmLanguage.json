@@ -35,7 +35,7 @@
       "patterns": [
         {
           "name": "keyword.amod",
-          "match": "\\b(and|authors|chunks|clear|description|do|examples|gactar|match|modules|name|print|recall|set|similar|stop|to|when)\\b"
+          "match": "\\b(and|authors|buffer_state|chunks|clear|description|do|examples|gactar|match|module_state|modules|name|print|recall|set|similar|stop|to|when|with)\\b"
         }
       ]
     },
@@ -59,7 +59,7 @@
       "patterns": [
         {
           "name": "constant.variable.amod",
-          "match": "\\b(extra_buffers|false|goal|imaginal|memory|nil|procedural|retrieval|true)\\b"
+          "match": "\\b(any|extra_buffers|false|goal|imaginal|memory|nil|procedural|retrieval|true)\\b"
         }
       ]
     },
