@@ -2,7 +2,7 @@
   "name": "gactar",
   "displayName": "gactar",
   "description": "Tools for working with gactar",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "publisher": "asmaloney",
   "author": {
     "name": "Andy Maloney <asmaloney@gmail.com>"
@@ -23,7 +23,7 @@
   "icon": "images/gactar-logo-1024.png",
   "readmeFilename": "README.md",
   "engines": {
-    "vscode": "^1.67.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Programming Languages",
@@ -33,9 +33,6 @@
     "amod",
     "gactar",
     "syntax highlight"
-  ],
-  "activationEvents": [
-    "onLanguage:amod"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -135,15 +132,15 @@
     "lint": "eslint src --ext ts"
   },
   "dependencies": {
-    "axios": "~0.27.2",
+    "axios": "~1.6.5",
     "tree-kill": "~1.2.2"
   },
   "devDependencies": {
-    "@types/vscode": "~1.67.0",
-    "@types/node": "~18.0.3",
-    "@typescript-eslint/eslint-plugin": "~5.30.5",
-    "@typescript-eslint/parser": "~5.30.5",
-    "eslint": "~8.19.0",
-    "typescript": "~4.7.4"
+    "@types/vscode": "~1.85.0",
+    "@types/node": "~20.11.5",
+    "@typescript-eslint/eslint-plugin": "~6.19.1",
+    "@typescript-eslint/parser": "~6.19.1",
+    "eslint": "~8.56.0",
+    "typescript": "~5.3.3"
   }
 }
