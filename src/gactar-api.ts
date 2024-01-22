@@ -25,6 +25,20 @@ async function getVersion(): Promise<Version> {
 }
 
 // run
+export interface RunOptions {
+  // An optional list of frameworks (default: "all").
+  frameworks?: string[]
+
+  // "min", "info", "detail" (default: "info")
+  logLevel?: string
+
+  // Show trace activations (default: off)
+  traceActivations?: boolean
+
+  // Set a specific random seed (default: nil)
+  randomSeed?: number
+}
+
 export interface RunParams {
   // The text of the amod to run.
   amod: string
@@ -32,8 +46,8 @@ export interface RunParams {
   // The starting goal.
   goal: string
 
-  // An optional list of frameworks ("all" if not set).
-  frameworks?: string[]
+  // Run options.
+  options?: RunOptions
 }
 
 // Location of an issue in the source code.

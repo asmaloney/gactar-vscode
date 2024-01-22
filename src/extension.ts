@@ -125,7 +125,9 @@ function runAMOD(editor: vscode.TextEditor, framework: string) {
   const params: RunParams = {
     amod: doc.getText(),
     goal: goal ? goal : '',
-    frameworks: [framework],
+    options: {
+      frameworks: [framework],
+    },
   }
 
   api
