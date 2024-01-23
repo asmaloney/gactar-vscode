@@ -23,7 +23,7 @@
   "icon": "images/gactar-logo-1024.png",
   "readmeFilename": "README.md",
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.85.0"
   },
   "categories": [
     "Programming Languages",
