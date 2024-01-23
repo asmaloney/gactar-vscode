@@ -1,4 +1,4 @@
-[![VS MarketPlace](https://vsmarketplacebadge.apphb.com/version/asmaloney.gactar.svg)](https://marketplace.visualstudio.com/items?itemName=asmaloney.gactar) [![GitHub](https://img.shields.io/github/license/asmaloney/gactar-vscode)](LICENSE)
+[![VS MarketPlace](https://img.shields.io/visual-studio-marketplace/v/asmaloney.gactar)](https://marketplace.visualstudio.com/items?itemName=asmaloney.gactar) [![GitHub](https://img.shields.io/github/license/asmaloney/gactar-vscode)](LICENSE)
 
 # ![gactar logo](images/gactar-logo-32.png) gactar-vscode
 
